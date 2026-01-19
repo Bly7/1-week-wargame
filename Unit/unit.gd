@@ -85,6 +85,7 @@ func highlightAttackableUnits(map: Map, units: Array):
 			map.highlightTile(unit_tile, Color(1, 0, 0).lerp(Color(1, 1, 1), 0.5)) # Highlight tile in red
 
 # Attack another unit
+# Might want to move this to the main script later
 func attackUnit(target_unit: Unit):
 	# empty move points
 	move_points = 0
