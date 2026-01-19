@@ -7,7 +7,7 @@ extends Node2D
 @export var side2_color: Color = Color(0, 0, 1) # Blue
 
 # Current side turn
-var current_side: int = 0
+var current_side: int = 1
 
 # Unit scene to instantiate
 @export var unit_scene: PackedScene = null
@@ -16,9 +16,12 @@ var current_side: int = 0
 # List of all units on the map
 var units: Array = []
 
+# Current turn number
+var turn_number: int = 1
 
 # UI References
 @onready var ui_unit_info: Control = $CanvasLayer/UiUnitInfo
+@onready var ui_end_turn: Control = $CanvasLayer/UiEndTurn
 
 # Input handling
 
@@ -33,6 +36,12 @@ func _ready():
 
 	# Set up units on the map
 	setUpUnits()
+
+	# Set up UI
+	ui_unit_info.setVisibility(false)
+	ui_end_turn.bindSignals(endTurn)
+	ui_end_turn.setPlayerName("Side " + str(current_side))
+	ui_end_turn.setTurnNumber(turn_number)
 
 func _input(event: InputEvent) -> void:
 	# Handle mouse clicks for unit selection
@@ -52,14 +61,18 @@ func _input(event: InputEvent) -> void:
 				ui_unit_info.updateUnitInfo(selected_unit)
 				ui_unit_info.setVisibility(true)
 
-				# Highlight tiles in unit's move range
 				map.resetAllTileHighlights()
-				unit.highlightMoveableTiles(map, units)
+
+				# Highlight tiles in unit's move range
+				if unit.side == current_side:
+					unit.highlightMoveableTiles(map, units)
+				
 			else:
 				# Deselect any selected unit and hide UI
 				if selected_unit != null:
-					# If a unit is selected, try to move it to the clicked tile		
-					selected_unit.moveToTile(map, tile)
+					if selected_unit.side == current_side and tile != null:
+						# If a unit is selected, try to move it to the clicked tile		
+						selected_unit.moveToTile(map, tile)
 
 					# After moving, deselect the unit and hide UI
 					selected_unit = null
@@ -71,7 +84,27 @@ func _input(event: InputEvent) -> void:
 		if event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 			pass
 
+func endTurn() -> void:
+	print("Ending turn for Side ", current_side)
+	# Advance to the next side's turn
+	current_side += 1
+	if current_side > 2:
+		current_side = 1
+		turn_number += 1
 
+	# Reset move points for all units of the current side
+	for unit in units:
+		if unit.side == current_side:
+			unit.resetMovePoints()
+
+	# Deselect any selected unit and hide UI
+	selected_unit = null
+	ui_unit_info.setVisibility(false)
+	map.resetAllTileHighlights()
+
+	# Update end turn UI
+	ui_end_turn.setPlayerName("Side " + str(current_side))
+	ui_end_turn.setTurnNumber(turn_number)
 
 func setUpUnits():
 	# Side 1 units

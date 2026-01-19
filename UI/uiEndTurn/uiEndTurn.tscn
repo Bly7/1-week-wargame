@@ -4,6 +4,7 @@
 
 [node name="UiEndTurn" type="Control"]
 layout_mode = 3
+anchors_preset = 0
 offset_right = 150.0
 offset_bottom = 100.0
 script = ExtResource("1_v2sla")
@@ -17,28 +18,29 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.40069774, 0.40069774, 0.40069768, 1)
 
-[node name="Button" type="Button" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -39.0
-offset_top = -38.0
-offset_right = 39.0
-offset_bottom = -7.0
 grow_horizontal = 2
-grow_vertical = 0
-text = "End Turn"
+grow_vertical = 2
+alignment = 1
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -24.5
-offset_right = 24.5
-offset_bottom = 23.0
-grow_horizontal = 2
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
 text = "Player"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Turn"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "End Turn"

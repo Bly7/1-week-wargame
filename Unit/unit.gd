@@ -8,9 +8,9 @@ class_name Unit
 @onready var move_points: int = 0
 
 func _ready():
-	reset()
+	resetMovePoints()
 
-func reset():
+func resetMovePoints():
 	# Initialize move points
 	move_points = move_range
 
