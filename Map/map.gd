@@ -12,6 +12,12 @@ var tile_size = 64
 func _ready():
 	pass # Replace with function body.
 
+# Get map dimensions
+func getWidth() -> int:
+	return int(map_size.x)
+func getHeight() -> int:
+	return int(map_size.y)
+
 # Set the size of the map and place tiles accordingly
 func setMapSize(size: Vector2):
 	map_size = size
@@ -68,8 +74,16 @@ func resetAllTileHighlights():
 			var tile = tile_map[x][y]
 			resetTileHighlight(tile)
 
+# Get neighboring tiles for a given grid position
+func getNeighborTiles(center_tile: Tile) -> Array:
+	var neighbors = getTilesInRange(center_tile, 1)
 
+	# Remove the center tile from the list
+	for tile in neighbors:
+		if tile == center_tile:
+			neighbors.erase(tile)
 
+	return neighbors
 
 # Get the tile at a specific grid position
 func getTileAtGrid(grid_pos: Vector2):
@@ -101,7 +115,7 @@ func distanceBetweenTiles(grid_pos1: Vector2, grid_pos2: Vector2) -> int:
 	return distance
 
 # Get all tiles within a certain range from a center tile
-func getTileInRange(center_tile: Tile, range: int) -> Array:
+func getTilesInRange(center_tile: Tile, range: int) -> Array:
 	var tiles_in_range = []
 
 	var center_pos = center_tile.getLocation()

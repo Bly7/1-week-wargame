@@ -31,7 +31,7 @@ var selected_unit: Unit = null
 
 func _ready():
 	# Set up the map
-	map.setMapSize(Vector2(7, 7))
+	map.setMapSize(Vector2(9, 9))
 	map.placeTiles()
 
 	# Set up units on the map
@@ -56,21 +56,40 @@ func _input(event: InputEvent) -> void:
 			var tile = map.getTileAtPixel(local_pos)
 
 			if unit != null:
+				# If clicking on an enemy unit while having a selected unit, attack
+				if selected_unit != null and selected_unit.canAct() and selected_unit != unit and selected_unit.side == current_side and unit.side != current_side:
+					# Attack the unit
+					selected_unit.attackUnit(unit)
+					print("Attacked unit: ", unit.name)
+				
+					# Deselect previous unit
+					ui_unit_info.setVisibility(false)
+					map.resetAllTileHighlights()
+					return
+
 				# Select the unit and update UI
 				selected_unit = unit
 				ui_unit_info.updateUnitInfo(selected_unit)
 				ui_unit_info.setVisibility(true)
-
+				
+				# Reset all tile highlights
 				map.resetAllTileHighlights()
 
 				# Highlight tiles in unit's move range
 				if unit.side == current_side:
 					unit.highlightMoveableTiles(map, units)
+					var attackable_units = getAttackableNeighborUnits(unit)
+					unit.highlightAttackableUnits(map, attackable_units)
+
+				# Highlight the selected unit's tile
+				map.highlightTile(tile, Color(1, 1, 0).lerp(Color(1, 1, 1), 0.5)) # Highlight in yellow
+					
+					
 				
 			else:
 				# Deselect any selected unit and hide UI
 				if selected_unit != null:
-					if selected_unit.side == current_side and tile != null:
+					if selected_unit.canAct() and selected_unit.side == current_side and tile != null:
 						# If a unit is selected, try to move it to the clicked tile		
 						selected_unit.moveToTile(map, tile)
 
@@ -84,8 +103,15 @@ func _input(event: InputEvent) -> void:
 		if event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 			pass
 
+func _process(delta: float) -> void:
+	# Update units array to only include valid units
+	for unit in units:
+		if not is_instance_valid(unit):
+			units.erase(unit)
+
+	pass
+
 func endTurn() -> void:
-	print("Ending turn for Side ", current_side)
 	# Advance to the next side's turn
 	current_side += 1
 	if current_side > 2:
@@ -112,10 +138,10 @@ func setUpUnits():
 	# Lay them across the top row
 	var unit_locations = []
 	for x in range(4):
-		var new_location = Vector2(randi_range(0, 6), 0)
+		var new_location = Vector2(randi_range(0, map.getWidth() - 1), 0)
 
 		while new_location in unit_locations:
-			new_location = Vector2(randi_range(0, 6), 0)
+			new_location = Vector2(randi_range(0, map.getWidth() - 1), 0)
 
 		var unit = spawnUnitAtGrid(1, new_location)
 		unit_locations.append(new_location)
@@ -126,10 +152,10 @@ func setUpUnits():
 	# Lay them across the bottom row
 	unit_locations.clear()
 	for x in range(4):
-		var new_location = Vector2(randi_range(0, 6), 6)
+		var new_location = Vector2(randi_range(0, map.getWidth() - 1), map.getHeight() - 1)
 
 		while new_location in unit_locations:
-			new_location = Vector2(randi_range(0, 6), 6)
+			new_location = Vector2(randi_range(0, map.getWidth() - 1), map.getHeight() - 1)
 		
 		var unit = spawnUnitAtGrid(2, new_location)
 		unit_locations.append(new_location)
@@ -177,3 +203,39 @@ func getUnitAtPixel(pixel_pos: Vector2) -> Unit:
 			return unit
 
 	return null
+
+# Get the unit at a specific tile
+func getUnitAtTile(tile: Tile) -> Unit:
+	for unit in units:
+		var unit_tile = map.getTileAtPixel(unit.position)
+		if unit_tile == tile:
+			return unit
+
+	return null
+
+# Get all units located within a list of tiles
+func getAllUnitsInTileList(tiles: Array) -> Array:
+	var found_units = []
+
+	for tile in tiles:
+		var unit = getUnitAtTile(tile)
+		if unit != null:
+			found_units.append(unit)
+
+	return found_units
+
+# Get all attackable neighbor units for a given unit
+func getAttackableNeighborUnits(unit: Unit) -> Array:
+	# List to hold attackable units
+	var attackable_units = []
+
+	# Get neighboring tiles and units from those tiles
+	var neighbor_tiles = map.getNeighborTiles(map.getTileAtPixel(unit.position))
+	var neighbor_units = getAllUnitsInTileList(neighbor_tiles)
+	
+	# Filter for enemy units
+	for neighbor_unit in neighbor_units:
+		if neighbor_unit.side != unit.side:
+			attackable_units.append(neighbor_unit)
+
+	return attackable_units

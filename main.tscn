@@ -14,20 +14,6 @@ unit_scene = ExtResource("3_h2yge")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="UiUnitInfo" parent="CanvasLayer" instance=ExtResource("4_1bvp3")]
-visible = false
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -300.0
-offset_top = -100.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 0
-grow_vertical = 0
-
 [node name="UiEndTurn" parent="CanvasLayer" instance=ExtResource("5_lquwl")]
 anchors_preset = 1
 anchor_left = 1.0
@@ -35,3 +21,16 @@ anchor_right = 1.0
 offset_left = -150.0
 offset_right = 0.0
 grow_horizontal = 0
+
+[node name="UiUnitInfo" parent="CanvasLayer" instance=ExtResource("4_1bvp3")]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0

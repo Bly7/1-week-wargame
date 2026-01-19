@@ -6,7 +6,7 @@
 layout_mode = 3
 anchors_preset = 0
 offset_right = 300.0
-offset_bottom = 100.0
+offset_bottom = 200.0
 script = ExtResource("1_kk4j3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -38,4 +38,19 @@ layout_mode = 2
 [node name="MovePointsText" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Move Points: "
+horizontal_alignment = 1
+
+[node name="HealthPointsText" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Health Points: "
+horizontal_alignment = 1
+
+[node name="AttackPowerText" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Attack Power: "
+horizontal_alignment = 1
+
+[node name="DefensePowerText" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Defense Power: "
 horizontal_alignment = 1

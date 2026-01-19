@@ -4,7 +4,17 @@ class_name Unit
 
 @export var side: int = 0
 
+# Movement range of the unit
 @export var move_range: int = 2
+
+# Health points of the unit
+@export var health_points: int = 3
+
+# Attack and defense power of the unit
+@export var attack_power: int = 1
+@export var defense_power: int = 1
+
+# Current move points available, might change this to action points later
 @onready var move_points: int = 0
 
 func _ready():
@@ -14,9 +24,12 @@ func resetMovePoints():
 	# Initialize move points
 	move_points = move_range
 
+func canAct() -> bool:
+	return move_points > 0 and health_points > 0
+
 # Move the unit to a specific tile if within move points
 func moveToTile(map: Map, tile: Tile) -> bool:
-	var tiles_in_range = map.getTileInRange(map.getTileAtPixel(position), move_points)
+	var tiles_in_range = map.getTilesInRange(map.getTileAtPixel(position), move_points)
 
 	if tile in tiles_in_range:
 		# Decrease move points
@@ -41,7 +54,7 @@ func highlightMoveRange(map: Map):
 	if tile == null:
 		return
 
-	var tiles_in_range = map.getTileInRange(tile, move_range)
+	var tiles_in_range = map.getTilesInRange(tile, move_range)
 	map.highlightTilesInList(tiles_in_range, Color(0, 1, 0).lerp(Color(1, 1, 1), 0.5)) # Highlight in green
 
 # Highlight moveable tiles considering other units' positions
@@ -52,7 +65,7 @@ func highlightMoveableTiles(map: Map, units: Array):
 		return
 
 	# Get tiles in move range
-	var tiles_in_range = map.getTileInRange(tile, move_points)
+	var tiles_in_range = map.getTilesInRange(tile, move_points)
 
 	# Remove tiles occupied by other units
 	for unit in units:
@@ -62,3 +75,38 @@ func highlightMoveableTiles(map: Map, units: Array):
 
 	# Highlight the remaining tiles
 	map.highlightTilesInList(tiles_in_range, Color(0, 1, 0).lerp(Color(1, 1, 1), 0.5)) # Highlight in green
+
+# Highlight attackable units within attack range
+func highlightAttackableUnits(map: Map, units: Array):
+	# Highlight units on those tiles
+	for unit in units:
+		var unit_tile = map.getTileAtPixel(unit.position)
+		if unit_tile != null:
+			map.highlightTile(unit_tile, Color(1, 0, 0).lerp(Color(1, 1, 1), 0.5)) # Highlight tile in red
+
+# Attack another unit
+func attackUnit(target_unit: Unit):
+	# empty move points
+	move_points = 0
+
+	# Roll to see if attack hits 
+	var attack_roll = randi_range(1, 6) + attack_power
+	var defense_roll = randi_range(1, 6) + target_unit.defense_power
+
+	if attack_roll < defense_roll:
+		# Attack missed
+		return
+
+	# Simple attack logic: reduce target's health by attacker's attack power minus target's defense power
+	var damage = 1
+	target_unit.health_points -= damage
+
+	# If health gets to 1, pull back unit, don't implement right now
+
+	# Ensure health doesn't go below zero
+	if target_unit.health_points < 0:
+		target_unit.health_points = 0
+
+	if target_unit.health_points == 0:
+		# Target unit is defeated, remove it from the game
+		target_unit.queue_free()
