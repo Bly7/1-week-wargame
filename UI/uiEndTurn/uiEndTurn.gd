@@ -11,8 +11,8 @@ func _ready():
 func bindSignals(end_turn_function: Callable) -> void:
     end_turn_button.connect("pressed", end_turn_function)
 
-func setPlayerName(name: String) -> void:
-    player_name_text.text = "Player: " + name
+func setPlayerName(player_name: String) -> void:
+    player_name_text.text = "Player: " + player_name
 
 func setTurnNumber(turn_number: int) -> void:
     turn_text.text = "Turn: " + str(turn_number)
