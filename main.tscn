@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnme1ca1ctfse"]
+
+[ext_resource type="Script" uid="uid://b4epf81vvpgj6" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://cji63g628h63s" path="res://Map/map.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://cr7xklypp7juc" path="res://Unit/unit.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://papgf3g1dbaw" path="res://UI/uiUnitInfo/uiUnitInfo.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://31mxrlofqlnm" path="res://UI/uiEndTurn/uiEndTurn.tscn" id="5_lquwl"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_0xm2m")
+unit_scene = ExtResource("3_h2yge")
+
+[node name="Map" parent="." instance=ExtResource("1_ig7tw")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UiUnitInfo" parent="CanvasLayer" instance=ExtResource("4_1bvp3")]
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -100.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="UiEndTurn" parent="CanvasLayer" instance=ExtResource("5_lquwl")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -150.0
+offset_right = 0.0
+grow_horizontal = 0
