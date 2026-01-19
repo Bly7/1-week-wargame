@@ -10,5 +10,5 @@ func updateUnitInfo(unit: Unit) -> void:
 	move_points_text.text = "Move Points: " + str(unit.move_points) + " / " + str(unit.move_range)
 
 
-func setVisibility(visible: bool) -> void:
-	self.visible = visible
+func setVisibility(new_visiblility: bool) -> void:
+	self.visible = new_visiblility
