@@ -50,6 +50,20 @@ func _ready():
 	map.setMapSize(Vector2(9, 9))
 	map.placeTiles()
 
+	for tile_number in range(10):
+		# Randomly block some tiles in the middle area
+		var rand_x = randi_range(0, map.getWidth() - 1)
+		var rand_y = randi_range(3, map.getHeight() - 4)
+
+		# Set the tile as blocked
+		var tile = map.getTileAtGrid(Vector2(rand_x, rand_y))
+		if tile != null:
+			tile.setBlocked(true)
+
+	# Setup AI
+	if ai != null:
+		ai.setEndTurnCallable(endTurn)
+
 	# Start the game
 	startGame()
 
@@ -72,11 +86,8 @@ func _process(delta: float) -> void:
 
 	# Handle AI turn
 	if (current_side == 1 and side1_ai) or (current_side == 2 and side2_ai):
-		# Make AI moves
-		ai.makeMoves(units, map, current_side)
-
-		# End the turn after AI moves
-		endTurn()
+		# Make AI moves and end turn
+		ai.makeMoves(delta, units, map, current_side)
 
 	# Update timer for periodic updates
 	update_timer -= delta

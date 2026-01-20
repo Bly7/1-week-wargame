@@ -52,7 +52,8 @@ func getAllMoveableTiles(map: Map, units: Array) -> Array:
 	var reachable_tiles = []
 	for target_tile in tiles_in_range:
 		var path = map.getPathBetweenTiles(tile, target_tile, units)
-		if path.size() - 1 <= move_points:
+		# Only add if a valid path exists and is within move range
+		if path.size() > 0 and path.size() - 1 <= move_points:
 			reachable_tiles.append(target_tile)
 
 	return reachable_tiles

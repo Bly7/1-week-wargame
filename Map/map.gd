@@ -43,8 +43,7 @@ func placeTiles():
 
 # Highlight a specific tile with a given color
 func highlightTile(tile: Tile, highlight_color: Color):
-	var sprite = tile.get_node("Sprite2D") as Sprite2D
-	sprite.modulate = highlight_color
+	tile.highlightTile(highlight_color)
 
 # Highlight multiple tiles in a list with a given color
 func highlightTilesInList(tiles: Array, highlight_color: Color):
@@ -59,7 +58,10 @@ func highlightTileAtGrid(grid_pos: Vector2, highlight_color: Color):
 
 # Reset a tile to normal color
 func resetTileHighlight(tile: Tile):
-	highlightTile(tile, Color(1, 1, 1))
+	if tile == null:
+		return
+
+	tile.resetTileColor()
 
 # Reset a tile at a specific grid position to normal color
 func resetTileHighlightAtGrid(grid_pos: Vector2):
@@ -180,6 +182,7 @@ func pixelToGrid(pixel_pos: Vector2) -> Vector2:
 
 # Get a path between two tiles using A* pathfinding
 # AI Generated function
+# If no complete path exists (blocked by units), returns partial path as far as possible toward target
 func getPathBetweenTiles(start_tile: Tile, end_tile: Tile, units: Array) -> Array:
 	if start_tile == null or end_tile == null:
 		return []
@@ -199,9 +202,13 @@ func getPathBetweenTiles(start_tile: Tile, end_tile: Tile, units: Array) -> Arra
 	var g_score = {}  # Cost from start to each tile
 	var f_score = {}  # Estimated total cost from start to end through each tile
 	
+	# Track the best tile (closest to target) in case we can't reach the destination
+	var best_tile = start_tile
+	var best_distance = distanceBetweenTiles(start_tile.getLocation(), end_tile.getLocation())
+	
 	# Initialize scores
 	g_score[start_tile] = 0
-	f_score[start_tile] = distanceBetweenTiles(start_tile.getLocation(), end_tile.getLocation())
+	f_score[start_tile] = best_distance
 	
 	while open_set.size() > 0:
 		# Find tile in open_set with lowest f_score
@@ -216,6 +223,12 @@ func getPathBetweenTiles(start_tile: Tile, end_tile: Tile, units: Array) -> Arra
 		# If we reached the goal, reconstruct and return the path
 		if current == end_tile:
 			return _reconstructPath(came_from, current)
+		
+		# Update best tile if this one is closer to the target
+		var current_distance = distanceBetweenTiles(current.getLocation(), end_tile.getLocation())
+		if current_distance < best_distance:
+			best_tile = current
+			best_distance = current_distance
 		
 		# Move current from open to closed set
 		open_set.erase(current)
@@ -257,7 +270,11 @@ func getPathBetweenTiles(start_tile: Tile, end_tile: Tile, units: Array) -> Arra
 			g_score[neighbor] = tentative_g_score
 			f_score[neighbor] = tentative_g_score + distanceBetweenTiles(neighbor.getLocation(), end_tile.getLocation())
 	
-	# No path found
+	# No complete path found, return partial path to closest tile we reached
+	if best_tile != start_tile:
+		return _reconstructPath(came_from, best_tile)
+	
+	# Couldn't move at all
 	return []
 
 # Helper function to reconstruct the path from A*
