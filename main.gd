@@ -6,6 +6,12 @@ extends Node2D
 @export var side1_color: Color = Color(1, 0, 0) # Red
 @export var side2_color: Color = Color(0, 0, 1) # Blue
 
+# AI Information
+@export var side1_ai: bool = true
+@export var side2_ai: bool = false
+
+@onready var ai: AI = $AI
+
 # Current side turn
 var current_side: int = 1
 
@@ -15,6 +21,8 @@ var current_side: int = 1
 
 # List of all units on the map
 var units: Array = []
+
+@export var units_per_side: int = 4
 
 # Current turn number
 var turn_number: int = 1
@@ -46,13 +54,70 @@ func _ready():
 	startGame()
 
 
-
 func _input(event: InputEvent) -> void:
 
 	# Ignore the following input if the game is over
 	if game_over:
 		return
 
+	# Handle player input
+	if (current_side == 1 and not side1_ai) or (current_side == 2 and not side2_ai):
+		handlePlayerInput(event)
+
+func _process(delta: float) -> void:
+
+	# Ignore following updates if the game is over
+	if game_over:
+		return
+
+	# Handle AI turn
+	if (current_side == 1 and side1_ai) or (current_side == 2 and side2_ai):
+		# Make AI moves
+		ai.makeMoves(units, map, current_side)
+
+		# End the turn after AI moves
+		endTurn()
+
+	# Update timer for periodic updates
+	update_timer -= delta
+	if update_timer <= 0.0:
+		update_timer = update_interval
+		updateState(delta)
+
+# Update game state periodically
+func updateState(delta: float) -> void:
+	# Update units array to only include valid units
+	for unit in units:
+		if not is_instance_valid(unit):
+			units.erase(unit)
+
+	# Check for end of turn conditions
+	var side_1_units = false
+	var side_2_units = false
+	for unit in units:
+		if not is_instance_valid(unit):
+			continue
+
+		if unit.side == 1:
+			side_1_units = true
+		elif unit.side == 2:
+			side_2_units = true
+
+	if not side_1_units:
+		winning_side = 2
+		game_over = true
+	elif not side_2_units:
+		winning_side = 1
+		game_over = true
+
+	if game_over:
+		# Show game over UI
+		ui_game_over.setWinnerText("Side " + str(winning_side) + " Wins!")
+		ui_game_over.setVisibility(true)
+		ui_game_over.bindRestartButton(startGame)
+
+# Handle player input
+func handlePlayerInput(event: InputEvent) -> void:
 	# Handle mouse clicks for unit selection
 	if event is InputEventMouseButton:
 		# Left mouse button click
@@ -92,15 +157,13 @@ func _input(event: InputEvent) -> void:
 
 				# Highlight the selected unit's tile
 				map.highlightTile(tile, Color(1, 1, 0).lerp(Color(1, 1, 1), 0.5)) # Highlight in yellow
-					
-					
 				
 			else:
 				# Deselect any selected unit and hide UI
 				if selected_unit != null:
 					if selected_unit.canAct() and selected_unit.side == current_side and tile != null:
 						# If a unit is selected, try to move it to the clicked tile		
-						selected_unit.moveToTile(map, tile)
+						selected_unit.moveToTile(map, tile, units)
 
 					# After moving, deselect the unit and hide UI
 					selected_unit = null
@@ -112,46 +175,7 @@ func _input(event: InputEvent) -> void:
 		if event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 			pass
 
-func _process(delta: float) -> void:
 
-	# Ignore following updates if the game is over
-	if game_over:
-		return
-
-	# Update timer for periodic updates
-	update_timer -= delta
-	if update_timer <= 0.0:
-		update_timer = update_interval
-		updateState(delta)
-
-
-func updateState(delta: float) -> void:
-	# Update units array to only include valid units
-	for unit in units:
-		if not is_instance_valid(unit):
-			units.erase(unit)
-
-	# Check for end of turn conditions
-	var side_1_units = false
-	var side_2_units = false
-	for unit in units:
-		if unit.side == 1:
-			side_1_units = true
-		elif unit.side == 2:
-			side_2_units = true
-
-	if not side_1_units:
-		winning_side = 2
-		game_over = true
-	elif not side_2_units:
-		winning_side = 1
-		game_over = true
-
-	if game_over:
-		# Show game over UI
-		ui_game_over.setWinnerText("Side " + str(winning_side) + " Wins!")
-		ui_game_over.setVisibility(true)
-		ui_game_over.bindRestartButton(startGame)
 
 func startGame() -> void:
 	# Reset game state variables
@@ -182,6 +206,9 @@ func endTurn() -> void:
 
 	# Reset move points for all units of the current side
 	for unit in units:
+		if not is_instance_valid(unit):
+			continue
+		
 		if unit.side == current_side:
 			unit.resetMovePoints()
 
@@ -205,7 +232,7 @@ func setUpUnits():
 
 	# Lay them across the top row
 	var unit_locations = []
-	for x in range(4):
+	for x in range(units_per_side):
 		var new_location = Vector2(randi_range(0, map.getWidth() - 1), 0)
 
 		while new_location in unit_locations:
@@ -219,7 +246,7 @@ func setUpUnits():
 	
 	# Lay them across the bottom row
 	unit_locations.clear()
-	for x in range(4):
+	for x in range(units_per_side):
 		var new_location = Vector2(randi_range(0, map.getWidth() - 1), map.getHeight() - 1)
 
 		while new_location in unit_locations:

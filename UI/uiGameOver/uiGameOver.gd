@@ -12,6 +12,10 @@ func setWinnerText(text: String) -> void:
 
 # Binds the restart button to a callback function
 func bindRestartButton(callback: Callable) -> void:
+	# if already connected, do nothing
+	if restartButton.is_connected("pressed", callback):
+		return
+
 	restartButton.pressed.connect(callback)
 
 # Sets the visibility of the game over screen

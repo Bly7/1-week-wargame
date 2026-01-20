@@ -5,14 +5,18 @@ extends Control
 @onready var turn_text: Label = $VBoxContainer/Label2
 
 func _ready():
-    pass # Replace with function body.
+	pass # Replace with function body.
 
 # Bind the end turn button to the provided function
 func bindSignals(end_turn_function: Callable) -> void:
-    end_turn_button.connect("pressed", end_turn_function)
+	# if end_turn_button is already connected, disconnect first
+	if end_turn_button.is_connected("pressed", end_turn_function):
+		return
+
+	end_turn_button.connect("pressed", end_turn_function)
 
 func setPlayerName(player_name: String) -> void:
-    player_name_text.text = "Player: " + player_name
+	player_name_text.text = "Player: " + player_name
 
 func setTurnNumber(turn_number: int) -> void:
-    turn_text.text = "Turn: " + str(turn_number)
+	turn_text.text = "Turn: " + str(turn_number)

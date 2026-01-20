@@ -6,6 +6,8 @@ var tile_location = Vector2.ZERO
 
 var tile_size = 64
 
+var tile_blocked: bool = false
+
 func _ready():
     pass # Replace with function body.
 

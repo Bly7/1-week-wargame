@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2742k8i62c7h"]
+
+[ext_resource type="Script" uid="uid://52a5qlq4fj6i" path="res://AI/AI.gd" id="1_icax4"]
+
+[node name="Ai" type="Node"]
+script = ExtResource("1_icax4")

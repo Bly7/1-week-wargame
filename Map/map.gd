@@ -177,3 +177,94 @@ func pixelToGrid(pixel_pos: Vector2) -> Vector2:
 			best_candidate = candidate
 	
 	return best_candidate
+
+# Get a path between two tiles using A* pathfinding
+# AI Generated function
+func getPathBetweenTiles(start_tile: Tile, end_tile: Tile, units: Array) -> Array:
+	if start_tile == null or end_tile == null:
+		return []
+	
+	# If end tile is blocked, no path exists
+	if end_tile.tile_blocked:
+		return []
+	
+	# If start and end are the same, return path with just the start tile
+	if start_tile == end_tile:
+		return [start_tile]
+	
+	# Initialize data structures for A*
+	var open_set = [start_tile]  # Tiles to be evaluated
+	var closed_set = []  # Tiles already evaluated
+	var came_from = {}  # Map to reconstruct path
+	var g_score = {}  # Cost from start to each tile
+	var f_score = {}  # Estimated total cost from start to end through each tile
+	
+	# Initialize scores
+	g_score[start_tile] = 0
+	f_score[start_tile] = distanceBetweenTiles(start_tile.getLocation(), end_tile.getLocation())
+	
+	while open_set.size() > 0:
+		# Find tile in open_set with lowest f_score
+		var current = open_set[0]
+		var lowest_f = f_score.get(current, INF)
+		for tile in open_set:
+			var tile_f = f_score.get(tile, INF)
+			if tile_f < lowest_f:
+				current = tile
+				lowest_f = tile_f
+		
+		# If we reached the goal, reconstruct and return the path
+		if current == end_tile:
+			return _reconstructPath(came_from, current)
+		
+		# Move current from open to closed set
+		open_set.erase(current)
+		closed_set.append(current)
+		
+		# Check all neighbors
+		var neighbors = getNeighborTiles(current)
+		for neighbor in neighbors:
+			# Skip if already evaluated or blocked
+			if neighbor in closed_set or neighbor.tile_blocked:
+				continue
+			
+			# Check if tile is occupied by a unit (only allow if it's the end tile)
+			var is_occupied = false
+			for unit in units:
+				if not is_instance_valid(unit):
+					continue
+
+				var unit_tile = getTileAtPixel(unit.position)
+				if unit_tile == neighbor and neighbor != end_tile:
+					is_occupied = true
+					break
+			
+			if is_occupied:
+				continue
+			
+			# Calculate tentative g_score (cost from start to neighbor through current)
+			var tentative_g_score = g_score.get(current, INF) + 1
+			
+			# Add neighbor to open set if not already there
+			if neighbor not in open_set:
+				open_set.append(neighbor)
+			elif tentative_g_score >= g_score.get(neighbor, INF):
+				# This is not a better path
+				continue
+			
+			# This is the best path so far, record it
+			came_from[neighbor] = current
+			g_score[neighbor] = tentative_g_score
+			f_score[neighbor] = tentative_g_score + distanceBetweenTiles(neighbor.getLocation(), end_tile.getLocation())
+	
+	# No path found
+	return []
+
+# Helper function to reconstruct the path from A*
+# AI Generated function
+func _reconstructPath(came_from: Dictionary, current: Tile) -> Array:
+	var path = [current]
+	while current in came_from:
+		current = came_from[current]
+		path.insert(0, current)
+	return path
