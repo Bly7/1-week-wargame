@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxxt0y80fcyoi"]
+
+[ext_resource type="Script" uid="uid://b0m80ml1exqdo" path="res://UI/uiGameOver/uiGameOver.gd" id="1_sfe5j"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_3rjr8"]
+color = Color(0.68969953, 0.68969965, 0.6896996, 1)
+thickness = 2
+
+[node name="UiGameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -150.0
+offset_top = -200.0
+offset_right = 150.0
+offset_bottom = 200.0
+script = ExtResource("1_sfe5j")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.43057036, 0.4305704, 0.4305704, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="GameOverLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_3rjr8")
+
+[node name="WinnerLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Side 0 Wins!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_3rjr8")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 10
+
+[node name="RestartButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "Restart Game"

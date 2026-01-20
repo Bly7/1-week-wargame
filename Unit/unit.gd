@@ -84,6 +84,15 @@ func highlightAttackableUnits(map: Map, units: Array):
 		if unit_tile != null:
 			map.highlightTile(unit_tile, Color(1, 0, 0).lerp(Color(1, 1, 1), 0.5)) # Highlight tile in red
 
+# Check if this unit can attack another unit
+func canAttackUnit(target_unit: Unit, map: Map) -> bool:
+	var can_attack = true
+	can_attack = can_attack and self != null and self.canAct()
+	can_attack = can_attack and self != target_unit and self.side != target_unit.side
+	can_attack = can_attack and map.areTilesNeighbors(map.getTileAtPixel(self.position), map.getTileAtPixel(target_unit.position))
+
+	return can_attack
+
 # Attack another unit
 # Might want to move this to the main script later
 func attackUnit(target_unit: Unit):

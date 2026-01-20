@@ -85,6 +85,12 @@ func getNeighborTiles(center_tile: Tile) -> Array:
 
 	return neighbors
 
+
+# Check if two tiles are neighbors
+func areTilesNeighbors(tile1: Tile, tile2: Tile) -> bool:
+	var neighbors = getNeighborTiles(tile1)
+	return tile2 in neighbors
+
 # Get the tile at a specific grid position
 func getTileAtGrid(grid_pos: Vector2):
 	if grid_pos.x < 0 or grid_pos.x >= map_size.x:

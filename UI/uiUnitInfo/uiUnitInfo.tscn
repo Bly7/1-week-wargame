@@ -5,7 +5,7 @@
 [node name="UiUnitInfo" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 300.0
+offset_right = 200.0
 offset_bottom = 200.0
 script = ExtResource("1_kk4j3")
 
