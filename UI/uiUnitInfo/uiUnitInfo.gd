@@ -14,9 +14,9 @@ func updateUnitInfo(unit: Unit) -> void:
 	# Set Health Points
 	health_points_text.text = "Health Points: " + str(unit.health_points)
 	# Set Attack Power
-	attack_power_text.text = "Attack Power: " + str(unit.attack_power)
+	attack_power_text.text = "Attack Power: " + str(unit.current_attack_power)
 	# Set Defense Power
-	defense_power_text.text = "Defense Power: " + str(unit.defense_power)
+	defense_power_text.text = "Defense Power: " + str(unit.current_defense_power)
 
 func setVisibility(new_visiblility: bool) -> void:
 	self.visible = new_visiblility

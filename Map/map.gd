@@ -28,6 +28,9 @@ func placeTiles():
 	for child in get_children():
 		child.queue_free()
 
+	# Clear the tile map array
+	tile_map.clear()
+
 	# Create new tiles
 	for x in range(map_size.x):
 		tile_map.append([])

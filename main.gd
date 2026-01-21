@@ -38,6 +38,7 @@ var winning_side: int = 0
 @onready var ui_unit_info: Control = $CanvasLayer/UiUnitInfo
 @onready var ui_end_turn: Control = $CanvasLayer/UiEndTurn
 @onready var ui_game_over: Control = $CanvasLayer/UiGameOver
+@onready var ui_move_path: Control = $CanvasLayer/UiMovePath
 
 # Input handling
 
@@ -46,20 +47,6 @@ var selected_unit: Unit = null
 
 
 func _ready():
-	# Set up the map
-	map.setMapSize(Vector2(9, 9))
-	map.placeTiles()
-
-	for tile_number in range(10):
-		# Randomly block some tiles in the middle area
-		var rand_x = randi_range(0, map.getWidth() - 1)
-		var rand_y = randi_range(3, map.getHeight() - 4)
-
-		# Set the tile as blocked
-		var tile = map.getTileAtGrid(Vector2(rand_x, rand_y))
-		if tile != null:
-			tile.setBlocked(true)
-
 	# Setup AI
 	if ai != null:
 		ai.setEndTurnCallable(endTurn)
@@ -88,6 +75,9 @@ func _process(delta: float) -> void:
 	if (current_side == 1 and side1_ai) or (current_side == 2 and side2_ai):
 		# Make AI moves and end turn
 		ai.makeMoves(delta, units, map, current_side)
+		ui_end_turn.hideEndTurnButton()
+	else:
+		ui_end_turn.showEndTurnButton()
 
 	# Update timer for periodic updates
 	update_timer -= delta
@@ -168,6 +158,9 @@ func handlePlayerInput(event: InputEvent) -> void:
 
 				# Highlight the selected unit's tile
 				map.highlightTile(tile, Color(1, 1, 0).lerp(Color(1, 1, 1), 0.5)) # Highlight in yellow
+
+				# Draw the move path for the selected unit
+				drawMovePathForUnit(selected_unit)
 				
 			else:
 				# Deselect any selected unit and hide UI
@@ -180,13 +173,19 @@ func handlePlayerInput(event: InputEvent) -> void:
 					selected_unit = null
 					ui_unit_info.setVisibility(false)
 					map.resetAllTileHighlights()
-					
+					ui_move_path.clearPath()
 
 		# Right mouse button click
 		if event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 			pass
 
+# Draw the move path for a unit
+func drawMovePathForUnit(unit: Unit) -> void:
+	if unit == null:
+		return
 
+	var move_path = unit.getMovePath()
+	ui_move_path.setPath(move_path)
 
 func startGame() -> void:
 	# Reset game state variables
@@ -194,6 +193,9 @@ func startGame() -> void:
 	turn_number = 1
 	game_over = false
 	winning_side = 0
+
+	# Set up the map
+	setUpMap()
 
 	# Set up units on the map
 	setUpUnits()
@@ -206,6 +208,8 @@ func startGame() -> void:
 	ui_end_turn.setTurnNumber(turn_number)
 
 	ui_game_over.setVisibility(false)
+
+	ui_move_path.clearPath()
 
 
 func endTurn() -> void:
@@ -231,6 +235,20 @@ func endTurn() -> void:
 	# Update end turn UI
 	ui_end_turn.setPlayerName("Side " + str(current_side))
 	ui_end_turn.setTurnNumber(turn_number)
+
+func setUpMap() -> void:
+	# Set up the map size and tiles
+	map.setMapSize(Vector2(10, 10))
+	map.placeTiles()
+
+	# Randomly block some tiles in the middle area
+	for tile_number in range(10):
+		var rand_x = randi_range(0, map.getWidth() - 1)
+		var rand_y = randi_range(3, map.getHeight() - 4)
+
+		var tile = map.getTileAtGrid(Vector2(rand_x, rand_y))
+		if tile != null:
+			tile.setBlocked(true)
 
 func setUpUnits():
 	# clear existing units

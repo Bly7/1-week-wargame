@@ -20,3 +20,9 @@ func setPlayerName(player_name: String) -> void:
 
 func setTurnNumber(turn_number: int) -> void:
 	turn_text.text = "Turn: " + str(turn_number)
+
+func hideEndTurnButton() -> void:
+	end_turn_button.visible = false
+
+func showEndTurnButton() -> void:
+	end_turn_button.visible = true

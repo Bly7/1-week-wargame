@@ -12,20 +12,70 @@ class_name Unit
 
 # Attack and defense power of the unit
 @export var attack_power: int = 1
+var current_attack_power: int = attack_power
 @export var defense_power: int = 1
+var current_defense_power: int = defense_power
 
 # Current move points available, might change this to action points later
 @onready var move_points: int = 0
 
+# Current move path for visualization
+var move_path: Array = []
+
+# Graphical Objects
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var attack_label: Label = $AttackLabel
+@onready var defense_label: Label = $DefenseLabel
+@onready var health_label: Label = $HealthLabel
+@onready var unmoved_label: Label = $UnmovedLabel
+
+# Audio Objects
+@onready var move_sound: AudioStreamPlayer = $MoveSound
+@onready var successful_attack_sound: AudioStreamPlayer = $SuccessfulAttackSound
+
 func _ready():
 	resetMovePoints()
+	updateStats()
+	updateGraphics()
 
 func resetMovePoints():
 	# Initialize move points
 	move_points = move_range
 
+	# Reset move path
+	move_path.clear()
+
+	# Update graphics
+	updateGraphics()
+
+func updateStats():
+	current_attack_power = attack_power * health_points
+	current_defense_power = defense_power * health_points
+
+	updateGraphics()
+
+func updateGraphics():
+	# Update the Attack and Defense labels
+	attack_label.text = str(current_attack_power)
+	defense_label.text = str(current_defense_power)
+
+	# Update the Health label with dots representing health points
+	var health_dots = ""
+	for dot in range(health_points):
+		health_dots += "."
+		
+	health_label.text = health_dots
+
+	# Update the Unmoved label visibility
+	unmoved_label.visible = hasMoved() == false and canAct()
+
+# Check if the unit can act (has move points and health)
 func canAct() -> bool:
 	return move_points > 0 and health_points > 0
+
+# Check if the unit has moved this turn
+func hasMoved() -> bool:
+	return move_points < move_range
 
 # Get all tiles this unit can move to considering other units' positions
 func getAllMoveableTiles(map: Map, units: Array) -> Array:
@@ -60,6 +110,11 @@ func getAllMoveableTiles(map: Map, units: Array) -> Array:
 
 # Move the unit to a specific tile if within move points
 func moveToTile(map: Map, tile: Tile, units: Array) -> bool:
+	# test if the tile is the same tile the unit is currently on
+	var current_tile = map.getTileAtPixel(position)
+	if current_tile == tile:
+		return false
+
 	# Get all moveable tiles
 	var moveable_tiles = getAllMoveableTiles(map, units)
 
@@ -70,15 +125,28 @@ func moveToTile(map: Map, tile: Tile, units: Array) -> bool:
 	# Decrease move points
 	var distance = map.distanceBetweenTiles(map.getTileAtPixel(position).getLocation(), tile.getLocation())
 	move_points -= distance
+
+	# Update the move path for visualization
+	var path = map.getPathBetweenTiles(map.getTileAtPixel(position), tile, units)
+	for path_tile in path:
+		move_path.append(path_tile)
 	
 	# Move the unit to the tile's center position
 	position = tile.getCenterOfTile()
+
+	# Update graphics
+	updateGraphics()
+
+	# Play Sound Effect (if any)
+	move_sound.play()
 	
 	return true
 
 # Set the unit's color
 func setColor(color: Color):
-	var sprite = $Sprite2D
+	if sprite == null:
+		sprite = $Sprite2D
+
 	sprite.modulate = color
 
 # Highlight tiles within the unit's move range
@@ -106,11 +174,24 @@ func highlightMoveableTiles(map: Map, units: Array):
 
 # Highlight attackable units within attack range
 func highlightAttackableUnits(map: Map, units: Array):
+	# if the unit cannot act, return
+	if not canAct():
+		return
+
 	# Highlight units on those tiles
 	for unit in units:
+		# Skip invalid units
+		if not is_instance_valid(unit):
+			continue
+		
+		
 		var unit_tile = map.getTileAtPixel(unit.position)
 		if unit_tile != null:
 			map.highlightTile(unit_tile, Color(1, 0, 0).lerp(Color(1, 1, 1), 0.5)) # Highlight tile in red
+
+# Set the move path for visualization
+func getMovePath() -> Array:
+	return move_path
 
 # Check if this unit can attack another unit
 func canAttackUnit(target_unit: Unit, map: Map) -> bool:
@@ -127,30 +208,56 @@ func canAttackUnit(target_unit: Unit, map: Map) -> bool:
 
 	return can_attack
 
+func applyDamage(damage: int):
+	health_points -= damage
+	if health_points < 0:
+		health_points = 0
+
+	# Update graphics and stats
+	updateGraphics()
+	updateStats()
+
+	if health_points <= 0:
+		# Target unit is defeated, remove it from the game
+		queue_free()
+		return
+
 # Attack another unit
 # Might want to move this to the main script later
 func attackUnit(target_unit: Unit):
+	# if the unit hasn't moved this turn, give attack bonus
+	var attack_bonus = 0
+	if move_points == move_range:
+		attack_bonus = 1
+
+	# if the target unit hasn't moved this turn, give defense bonus
+	var defense_bonus = 0
+	if target_unit.move_points == target_unit.move_range:
+		defense_bonus = 1
+
 	# empty move points
 	move_points = 0
 
 	# Roll to see if attack hits 
-	var attack_roll = randi_range(1, 6) + attack_power
-	var defense_roll = randi_range(1, 6) + target_unit.defense_power
+	var attack_roll = randi_range(1, 6) + current_attack_power + attack_bonus
+	var defense_roll = randi_range(1, 6) + target_unit.current_defense_power + defense_bonus
 
 	if attack_roll < defense_roll:
+		# counterattack logic
+		if target_unit.hasMoved() == false:
+			# Target unit gets a counterattack if it hasn't moved
+			target_unit.attackUnit(self)
+		
 		# Attack missed
 		return
 
+	# Update graphics
+	updateGraphics()
+	updateStats()
+
 	# Simple attack logic: reduce target's health by attacker's attack power minus target's defense power
 	var damage = 1
-	target_unit.health_points -= damage
+	target_unit.applyDamage(damage)
 
-	# If health gets to 1, pull back unit, don't implement right now
-
-	# Ensure health doesn't go below zero
-	if target_unit.health_points < 0:
-		target_unit.health_points = 0
-
-	if target_unit.health_points == 0:
-		# Target unit is defeated, remove it from the game
-		target_unit.queue_free()
+	# Play Sound Effect (if any)
+	successful_attack_sound.play()

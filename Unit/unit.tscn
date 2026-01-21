@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cr7xklypp7juc"]
+[gd_scene load_steps=4 format=3 uid="uid://cr7xklypp7juc"]
 
 [ext_resource type="Script" uid="uid://tj5w2xdbxth0" path="res://Unit/unit.gd" id="1_c0ino"]
 [ext_resource type="Texture2D" uid="uid://e63t4lewjb7o" path="res://Unit/unit.png" id="1_tuymw"]
+[ext_resource type="AudioStream" uid="uid://disv17id42qnt" path="res://Sounds/move_sound.tres" id="3_6w0sq"]
 
 [node name="Unit" type="Node2D"]
 script = ExtResource("1_c0ino")
@@ -10,3 +11,60 @@ script = ExtResource("1_c0ino")
 position = Vector2(1.9073486e-06, 1.9073486e-06)
 scale = Vector2(0.640625, 0.640625)
 texture = ExtResource("1_tuymw")
+
+[node name="SeparatorLabel" type="Label" parent="."]
+offset_left = -3.0
+offset_top = -11.0
+offset_right = 3.0
+offset_bottom = 12.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttackLabel" type="Label" parent="."]
+offset_left = -15.0
+offset_top = -10.0
+offset_right = -1.0
+offset_bottom = 13.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DefenseLabel" type="Label" parent="."]
+offset_left = 1.0
+offset_top = -10.0
+offset_right = 15.0
+offset_bottom = 13.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HealthLabel" type="Label" parent="."]
+offset_left = -15.0
+offset_top = -26.0
+offset_right = 15.0
+offset_bottom = -3.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UnmovedLabel" type="Label" parent="."]
+offset_left = -5.0
+offset_top = -27.0
+offset_right = 6.0
+offset_bottom = -4.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoveSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_6w0sq")
+
+[node name="SuccessfulAttackSound" type="AudioStreamPlayer" parent="."]
+volume_db = -0.24
+pitch_scale = 0.8

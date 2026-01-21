@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cnme1ca1ctfse"]
+[gd_scene load_steps=9 format=3 uid="uid://cnme1ca1ctfse"]
 
 [ext_resource type="Script" uid="uid://b4epf81vvpgj6" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cji63g628h63s" path="res://Map/map.tscn" id="1_ig7tw"]
@@ -7,17 +7,21 @@
 [ext_resource type="PackedScene" uid="uid://c2742k8i62c7h" path="res://AI/AI.tscn" id="4_272bh"]
 [ext_resource type="PackedScene" uid="uid://31mxrlofqlnm" path="res://UI/uiEndTurn/uiEndTurn.tscn" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://dxxt0y80fcyoi" path="res://UI/uiGameOver/uiGameOver.tscn" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://drwo2kw0u58i0" path="res://UI/uiMovePath/uiMovePath.tscn" id="8_5vw27"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0xm2m")
 unit_scene = ExtResource("3_h2yge")
-units_per_side = 8
+units_per_side = 6
 
 [node name="Map" parent="." instance=ExtResource("1_ig7tw")]
 
 [node name="AI" parent="." instance=ExtResource("4_272bh")]
+time_per_move = 0.15
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UiMovePath" parent="CanvasLayer" instance=ExtResource("8_5vw27")]
 
 [node name="UiEndTurn" parent="CanvasLayer" instance=ExtResource("5_lquwl")]
 anchors_preset = 1

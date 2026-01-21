@@ -4,7 +4,7 @@ class_name AI
 
 var end_turn_callable: Callable
 
-var time_per_move: float = 0.1  # Time delay between moves
+@export var time_per_move: float = 0.1  # Time delay between moves
 var time_remaining: float = 0.0
 
 var units_left_to_move: Array = []
@@ -92,6 +92,8 @@ func moveUnit(unit: Node2D, enemy_units: Array, units: Array, map: Node2D, side:
 			var enemy_tile = map.getTileAtPixel(closest_enemy.position)
 			path = map.getPathBetweenTiles(current_tile, enemy_tile, units)
 
+		path.pop_front()  # remove current tile
+		
 		# Move along the path if possible
 		for next_tile in path:
 			var moved = unit.moveToTile(map, next_tile, units)

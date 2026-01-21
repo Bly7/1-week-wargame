@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://drwo2kw0u58i0"]
+
+[ext_resource type="Script" uid="uid://qrplnhfapan0" path="res://UI/uiMovePath/uiMovePath.gd" id="1_6f4o8"]
+
+[node name="UiMovePath" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6f4o8")
+
+[node name="Line2D" type="Line2D" parent="."]
+width = 5.0
+default_color = Color(1, 0, 0, 1)
