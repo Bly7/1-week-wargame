@@ -135,7 +135,7 @@ func handlePlayerInput(event: InputEvent) -> void:
 				# If clicking on an enemy unit while having a selected unit, attack
 				if can_attack:
 					# Attack the unit
-					selected_unit.attackUnit(unit)
+					selected_unit.attackUnit(unit, map)
 				
 					# Deselect previous unit
 					ui_unit_info.setVisibility(false)
@@ -262,10 +262,10 @@ func setUpUnits():
 	# Lay them across the top row
 	var unit_locations = []
 	for x in range(units_per_side):
-		var new_location = Vector2(randi_range(0, map.getWidth() - 1), 0)
+		var new_location = Vector2(randi_range(0, map.getWidth() - 1), randi_range(0, 2))
 
 		while new_location in unit_locations:
-			new_location = Vector2(randi_range(0, map.getWidth() - 1), 0)
+			new_location = Vector2(randi_range(0, map.getWidth() - 1), randi_range(0, 2))
 
 		var unit = spawnUnitAtGrid(1, new_location)
 		unit_locations.append(new_location)
@@ -276,10 +276,10 @@ func setUpUnits():
 	# Lay them across the bottom row
 	unit_locations.clear()
 	for x in range(units_per_side):
-		var new_location = Vector2(randi_range(0, map.getWidth() - 1), map.getHeight() - 1)
+		var new_location = Vector2(randi_range(0, map.getWidth() - 1), randi_range(map.getHeight() - 3, map.getHeight() - 1))
 
 		while new_location in unit_locations:
-			new_location = Vector2(randi_range(0, map.getWidth() - 1), map.getHeight() - 1)
+			new_location = Vector2(randi_range(0, map.getWidth() - 1), randi_range(map.getHeight() - 3, map.getHeight() - 1))
 		
 		var unit = spawnUnitAtGrid(2, new_location)
 		unit_locations.append(new_location)

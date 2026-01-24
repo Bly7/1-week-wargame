@@ -104,4 +104,4 @@ func moveUnit(unit: Node2D, enemy_units: Array, units: Array, map: Node2D, side:
 		if closest_enemy != null:
 			# attack if in range
 			if unit.canAttackUnit(closest_enemy, map):
-				unit.attackUnit(closest_enemy)
+				unit.attackUnit(closest_enemy, map)

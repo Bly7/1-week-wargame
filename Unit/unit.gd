@@ -77,6 +77,7 @@ func canAct() -> bool:
 # Check if the unit has moved this turn
 func hasMoved() -> bool:
 	return move_points < move_range
+	#return move_path.size() > 0
 
 # Get all tiles this unit can move to considering other units' positions
 func getAllMoveableTiles(map: Map, units: Array) -> Array:
@@ -142,6 +143,10 @@ func moveToTile(map: Map, tile: Tile, units: Array) -> bool:
 	move_sound.play()
 	
 	return true
+
+# Get the tile the unit is currently on
+func getCurrentTile(map: Map) -> Tile:
+	return map.getTileAtPixel(position)
 
 # Set the unit's color
 func setColor(color: Color):
@@ -209,7 +214,7 @@ func canAttackUnit(target_unit: Unit, map: Map) -> bool:
 
 	return can_attack
 
-func applyDamage(damage: int):
+func applyDamage(damage: int) -> bool:
 	health_points -= damage
 	if health_points < 0:
 		health_points = 0
@@ -221,7 +226,9 @@ func applyDamage(damage: int):
 	if health_points <= 0:
 		# Target unit is defeated, remove it from the game
 		queue_free()
-		return
+		return true
+	
+	return false
 
 func roll() -> int:
 	return randi_range(1, 6)
@@ -229,17 +236,18 @@ func roll() -> int:
 
 # Attack another unit
 # Might want to move this to the main script later
-func attackUnit(target_unit: Unit):
+func attackUnit(target_unit: Unit, map: Map, is_counterattack: bool = false) -> bool:
 	# if the unit hasn't moved this turn, give attack bonus
 	var attack_bonus = 0
-	if move_points == move_range:
-		attack_bonus = 1
+	'''
+	if hasMoved() == false:
+		attack_bonus = 1'''
 	
 
 	# if the target unit hasn't moved this turn, give defense bonus
 	var defense_bonus = 0
-	if target_unit.move_points == target_unit.move_range:
-		defense_bonus = 2
+	if target_unit.hasMoved() == false:
+		defense_bonus = 1
 
 	# empty move points
 	move_points = 0
@@ -253,12 +261,17 @@ func attackUnit(target_unit: Unit):
 		failed_attack_sound.play()
 
 		# counterattack logic
-		if target_unit.hasMoved() == false:
+		if target_unit.hasMoved() == false and is_counterattack == false:
 			# Target unit gets a counterattack if it hasn't moved
-			target_unit.attackUnit(self)
+			var counterattack_result = target_unit.attackUnit(self, map, true)
+
+			# I need a sound for counterattack
+
+			return false
+			
 		
 		# Attack missed
-		return
+		return false
 
 	# Update graphics
 	updateGraphics()
@@ -266,7 +279,20 @@ func attackUnit(target_unit: Unit):
 
 	# Simple attack logic: reduce target's health by attacker's attack power minus target's defense power
 	var damage = 1
-	target_unit.applyDamage(damage)
+	var target_tile = target_unit.getCurrentTile(map)
+	var destroyed = target_unit.applyDamage(damage)
+
+	# If the target unit is destroyed, move into its tile, unless it's a counterattack
+	if destroyed and not is_counterattack:
+		# Update the move path for visualization
+		move_path.append(getCurrentTile(map))
+		move_path.append(target_tile)
+
+		# Move the unit to the target tile's center position
+		position = target_tile.getCenterOfTile()
 
 	# Play Sound Effect (if any)
 	successful_attack_sound.play()
+
+	# Attack successful
+	return true
