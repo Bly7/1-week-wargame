@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://cr7xklypp7juc"]
+[gd_scene load_steps=6 format=3 uid="uid://cr7xklypp7juc"]
 
 [ext_resource type="Script" uid="uid://tj5w2xdbxth0" path="res://Unit/unit.gd" id="1_c0ino"]
 [ext_resource type="Texture2D" uid="uid://e63t4lewjb7o" path="res://Unit/unit.png" id="1_tuymw"]
 [ext_resource type="AudioStream" uid="uid://disv17id42qnt" path="res://Sounds/move_sound.tres" id="3_6w0sq"]
+[ext_resource type="AudioStream" uid="uid://uy1pg0b8lsoj" path="res://Sounds/successful_attack_sound.tres" id="4_ytiie"]
+[ext_resource type="AudioStream" uid="uid://bf22rt5bkogo3" path="res://Sounds/failed_attack_sound.tres" id="5_h1a0a"]
 
 [node name="Unit" type="Node2D"]
 script = ExtResource("1_c0ino")
@@ -28,7 +30,7 @@ offset_top = -10.0
 offset_right = -1.0
 offset_bottom = 13.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "2"
+text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -38,7 +40,7 @@ offset_top = -10.0
 offset_right = 15.0
 offset_bottom = 13.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "2"
+text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -53,12 +55,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="UnmovedLabel" type="Label" parent="."]
-offset_left = -5.0
-offset_top = -27.0
-offset_right = 6.0
-offset_bottom = -4.0
+offset_left = -17.0
+offset_top = -24.0
+offset_right = -6.0
+offset_bottom = -1.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "-"
+text = "+"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -66,5 +68,10 @@ vertical_alignment = 1
 stream = ExtResource("3_6w0sq")
 
 [node name="SuccessfulAttackSound" type="AudioStreamPlayer" parent="."]
-volume_db = -0.24
-pitch_scale = 0.8
+stream = ExtResource("4_ytiie")
+volume_db = -8.969
+
+[node name="FailedAttackSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_h1a0a")
+volume_db = -2.0
+pitch_scale = 0.7

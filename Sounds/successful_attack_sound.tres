@@ -1,6 +1,6 @@
 [gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://uy1pg0b8lsoj"]
 
-[ext_resource type="AudioStream" uid="uid://c8gkf38i4cjfr" path="res://Sounds/metal_slice.mp3" id="1_3lyeq"]
+[ext_resource type="AudioStream" uid="uid://d2v8rxdnbl84l" path="res://Sounds/explosion_fast.mp3" id="1_3lyeq"]
 
 [resource]
 random_pitch = 1.15

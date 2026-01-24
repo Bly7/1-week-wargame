@@ -11,10 +11,10 @@ class_name Unit
 @export var health_points: int = 3
 
 # Attack and defense power of the unit
-@export var attack_power: int = 1
-var current_attack_power: int = attack_power
-@export var defense_power: int = 1
-var current_defense_power: int = defense_power
+@export var attack_power: float = 1
+var current_attack_power: int = int(attack_power)
+@export var defense_power: float = 1
+var current_defense_power: int = int(defense_power)
 
 # Current move points available, might change this to action points later
 @onready var move_points: int = 0
@@ -32,6 +32,7 @@ var move_path: Array = []
 # Audio Objects
 @onready var move_sound: AudioStreamPlayer = $MoveSound
 @onready var successful_attack_sound: AudioStreamPlayer = $SuccessfulAttackSound
+@onready var failed_attack_sound: AudioStreamPlayer = $FailedAttackSound
 
 func _ready():
 	resetMovePoints()
@@ -222,6 +223,10 @@ func applyDamage(damage: int):
 		queue_free()
 		return
 
+func roll() -> int:
+	return randi_range(1, 6)
+	#return randi_range(1, 10)
+
 # Attack another unit
 # Might want to move this to the main script later
 func attackUnit(target_unit: Unit):
@@ -229,20 +234,24 @@ func attackUnit(target_unit: Unit):
 	var attack_bonus = 0
 	if move_points == move_range:
 		attack_bonus = 1
+	
 
 	# if the target unit hasn't moved this turn, give defense bonus
 	var defense_bonus = 0
 	if target_unit.move_points == target_unit.move_range:
-		defense_bonus = 1
+		defense_bonus = 2
 
 	# empty move points
 	move_points = 0
 
 	# Roll to see if attack hits 
-	var attack_roll = randi_range(1, 6) + current_attack_power + attack_bonus
-	var defense_roll = randi_range(1, 6) + target_unit.current_defense_power + defense_bonus
+	var attack_roll = roll() + current_attack_power + attack_bonus
+	var defense_roll = target_unit.roll() + target_unit.current_defense_power + defense_bonus
 
 	if attack_roll < defense_roll:
+		# Play Sound Effect (if any)
+		failed_attack_sound.play()
+
 		# counterattack logic
 		if target_unit.hasMoved() == false:
 			# Target unit gets a counterattack if it hasn't moved
