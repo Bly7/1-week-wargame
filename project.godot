@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="1 Week Wargame"
-run/main_scene="uid://cnme1ca1ctfse"
+run/main_scene="uid://y7m4kx40o418"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GlobalSettings="*res://Global/Settings.gd"
 
 [display]
 

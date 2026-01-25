@@ -26,3 +26,10 @@ func hideEndTurnButton() -> void:
 
 func showEndTurnButton() -> void:
 	end_turn_button.visible = true
+
+func _on_exit_game_button_pressed() -> void:
+	if GlobalSettings.start_menu_path == "":
+		push_error("Start menu scene location is not set in MainMenuScene.gd")
+		return
+	
+	get_tree().change_scene_to_file(GlobalSettings.start_menu_path)

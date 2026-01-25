@@ -1,0 +1,170 @@
+[gd_scene load_steps=4 format=3 uid="uid://y7m4kx40o418"]
+
+[ext_resource type="Script" uid="uid://cx3t41360skc5" path="res://Menu/StartMenu.gd" id="1_8pdbv"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_8pdbv"]
+color = Color(1, 1, 1, 1)
+grow_begin = -150.0
+grow_end = -150.0
+thickness = 4
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_gfwu2"]
+thickness = 0
+
+[node name="StartMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8pdbv")
+
+[node name="StartMenuControl" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="StartMenuControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 65
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StartMenuControl/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "1 Week Wargame"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_8pdbv")
+
+[node name="MarginContainer" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Side 1"
+horizontal_alignment = 1
+
+[node name="Side1AIButton" type="OptionButton" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+selected = 1
+item_count = 2
+popup/item_0/text = "Player"
+popup/item_0/id = 1
+popup/item_1/text = "AI"
+popup/item_1/id = 0
+
+[node name="VSeparator" type="VSeparator" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+theme_override_styles/separator = SubResource("StyleBoxLine_gfwu2")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Side 2"
+horizontal_alignment = 1
+
+[node name="Side2AIButton" type="OptionButton" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Player"
+popup/item_0/id = 1
+popup/item_1/text = "AI"
+popup/item_1/id = 0
+
+[node name="MarginContainer5" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Unit Number (4-20)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 300
+theme_override_constants/margin_right = 300
+
+[node name="UnitNumberSpinBox" type="SpinBox" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/buttons_width = 20
+min_value = 4.0
+max_value = 20.0
+value = 6.0
+alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 200
+
+[node name="StartGameButton" type="Button" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Start Game"
+
+[node name="MarginContainer3" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 200
+
+[node name="InstructionsButton" type="Button" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Show Instructions"
+
+[node name="MarginContainer4" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 200
+
+[node name="ExitButton" type="Button" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer4"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Exit Game"
+
+[connection signal="item_selected" from="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/Side1AIButton" to="." method="_on_side_1ai_button_item_selected"]
+[connection signal="item_selected" from="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/Side2AIButton" to="." method="_on_side_2ai_button_item_selected"]
+[connection signal="value_changed" from="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5/VBoxContainer/MarginContainer/UnitNumberSpinBox" to="." method="_on_unit_number_spin_box_value_changed"]
+[connection signal="pressed" from="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer2/StartGameButton" to="." method="_on_start_game_button_pressed"]
+[connection signal="pressed" from="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer3/InstructionsButton" to="." method="_on_instructions_button_pressed"]
+[connection signal="pressed" from="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer4/ExitButton" to="." method="_on_exit_button_pressed"]

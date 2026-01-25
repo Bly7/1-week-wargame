@@ -194,6 +194,11 @@ func startGame() -> void:
 	game_over = false
 	winning_side = 0
 
+	# Load Global Settings
+	side1_ai = GlobalSettings.side1_ai
+	side2_ai = GlobalSettings.side2_ai
+	units_per_side = GlobalSettings.unit_number
+
 	# Set up the map
 	setUpMap()
 

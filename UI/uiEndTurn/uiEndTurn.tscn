@@ -1,12 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://31mxrlofqlnm"]
+[gd_scene load_steps=3 format=3 uid="uid://31mxrlofqlnm"]
 
 [ext_resource type="Script" uid="uid://btpg8daa2xelq" path="res://UI/uiEndTurn/uiEndTurn.gd" id="1_v2sla"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_v2sla"]
+color = Color(0.65012825, 0.6501283, 0.65012825, 1)
+thickness = 2
 
 [node name="UiEndTurn" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 150.0
-offset_bottom = 100.0
+offset_bottom = 200.0
 script = ExtResource("1_v2sla")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -27,6 +31,20 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_right = 15
+
+[node name="ExitGameButton" type="Button" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "Exit Game"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 54
+theme_override_styles/separator = SubResource("StyleBoxLine_v2sla")
+
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Player"
@@ -44,3 +62,5 @@ alignment = 1
 [node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "End Turn"
+
+[connection signal="pressed" from="VBoxContainer/MarginContainer/ExitGameButton" to="." method="_on_exit_game_button_pressed"]
