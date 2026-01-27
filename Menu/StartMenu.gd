@@ -1,10 +1,17 @@
 extends Control
 
+@onready var start_menu_control = $StartMenuControl
+@onready var instruction_popup = $InstructionPopup
 
 func _ready():
 	GlobalSettings.resetSettings()
 	pass # Replace with function body.
 
+
+func _process(delta: float) -> void:
+	# Check if instruction popup was just closed
+	if instruction_popup.getJustClosed():
+		start_menu_control.visible = true
 
 # Changes scene to main game scene
 func startGame():
@@ -20,7 +27,8 @@ func _on_exit_button_pressed() -> void:
 	get_tree().quit()
 
 func _on_instructions_button_pressed() -> void:
-	pass # Replace with function body.
+	start_menu_control.visible = false
+	instruction_popup.openInstructions()
 
 func _on_start_game_button_pressed() -> void:
 	startGame()

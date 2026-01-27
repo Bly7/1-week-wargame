@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cnme1ca1ctfse"]
+[gd_scene format=3 uid="uid://cnme1ca1ctfse"]
 
 [ext_resource type="Script" uid="uid://b4epf81vvpgj6" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cji63g628h63s" path="res://Map/map.tscn" id="1_ig7tw"]
@@ -9,21 +9,20 @@
 [ext_resource type="PackedScene" uid="uid://dxxt0y80fcyoi" path="res://UI/uiGameOver/uiGameOver.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://drwo2kw0u58i0" path="res://UI/uiMovePath/uiMovePath.tscn" id="8_5vw27"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" unique_id=938094132]
 script = ExtResource("1_0xm2m")
 unit_scene = ExtResource("3_h2yge")
-units_per_side = 6
 
-[node name="Map" parent="." instance=ExtResource("1_ig7tw")]
+[node name="Map" parent="." unique_id=304622505 instance=ExtResource("1_ig7tw")]
 
-[node name="AI" parent="." instance=ExtResource("4_272bh")]
+[node name="AI" parent="." unique_id=1207651867 instance=ExtResource("4_272bh")]
 time_per_move = 0.15
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1406286031]
 
-[node name="UiMovePath" parent="CanvasLayer" instance=ExtResource("8_5vw27")]
+[node name="UiMovePath" parent="CanvasLayer" unique_id=1805308110 instance=ExtResource("8_5vw27")]
 
-[node name="UiEndTurn" parent="CanvasLayer" instance=ExtResource("5_lquwl")]
+[node name="UiEndTurn" parent="CanvasLayer" unique_id=1304398590 instance=ExtResource("5_lquwl")]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -31,7 +30,7 @@ offset_left = -150.0
 offset_right = 0.0
 grow_horizontal = 0
 
-[node name="UiUnitInfo" parent="CanvasLayer" instance=ExtResource("4_1bvp3")]
+[node name="UiUnitInfo" parent="CanvasLayer" unique_id=1597171202 instance=ExtResource("4_1bvp3")]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -44,7 +43,7 @@ offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="UiGameOver" parent="CanvasLayer" instance=ExtResource("6_7mycd")]
+[node name="UiGameOver" parent="CanvasLayer" unique_id=1571320850 instance=ExtResource("6_7mycd")]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

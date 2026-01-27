@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://y7m4kx40o418"]
+[gd_scene load_steps=5 format=3 uid="uid://y7m4kx40o418"]
 
 [ext_resource type="Script" uid="uid://cx3t41360skc5" path="res://Menu/StartMenu.gd" id="1_8pdbv"]
+[ext_resource type="PackedScene" uid="uid://t40d56y85vkm" path="res://Menu/InstructionPopup/InstructionPopup.tscn" id="2_qn8y5"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_8pdbv"]
 color = Color(1, 1, 1, 1)
@@ -161,6 +162,10 @@ theme_override_constants/margin_right = 200
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Exit Game"
+
+[node name="InstructionPopup" parent="." instance=ExtResource("2_qn8y5")]
+visible = false
+layout_mode = 1
 
 [connection signal="item_selected" from="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/Side1AIButton" to="." method="_on_side_1ai_button_item_selected"]
 [connection signal="item_selected" from="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/Side2AIButton" to="." method="_on_side_2ai_button_item_selected"]

@@ -38,7 +38,7 @@ theme_override_constants/margin_right = 15
 
 [node name="ExitGameButton" type="Button" parent="VBoxContainer/MarginContainer"]
 layout_mode = 2
-text = "Exit Game"
+text = "Back To Menu"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2

@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://t40d56y85vkm"]
+
+[ext_resource type="Script" uid="uid://752g5vxb3kqo" path="res://Menu/InstructionPopup/InstructionPopup.gd" id="1_cslbv"]
+
+[node name="InstructionPopup" type="Control" unique_id=1067834954]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cslbv")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1757984142]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="BackgroundColorRect" type="ColorRect" parent="MarginContainer" unique_id=955989969]
+layout_mode = 2
+color = Color(0.3403393, 0.34033933, 0.34033936, 1)
+
+[node name="InstructionsPage1" type="Control" parent="MarginContainer" unique_id=852827205]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/InstructionsPage1" unique_id=280704415]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/InstructionsPage1/MarginContainer" unique_id=50949316]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/InstructionsPage1/MarginContainer/VBoxContainer" unique_id=233918565]
+layout_mode = 2
+text = "Instructions"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/InstructionsPage1/MarginContainer/VBoxContainer" unique_id=728045367]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Map
+
+A 10x10 grid of open and blocked spaces.
+
+Setup
+
+Each player controls 4 units (Red vs Blue) on opposite sides of a 10x10 hex battlefield. Players alternate turns.
+
+Unit Stats
+
+Each unit has three core stats: Health Points (shown as dots), Attack Strength, and Defense Strength. Both Attack and Defense values are calculated by multiplying the unit's base power by its current Health Points, so a unit with 3 Health and 1 base Attack has an Attack Strength of 3. As units take damage, they become weaker in combat. Each unit has a base Attack and Defense of 1 and starts with 3 health points. This gives it a starting power of 3 Attack and 3 Defense.
+
+Movement, Attack, and Move Points
+
+Every unit starts each turn with 2 Move Points. Each point allows it to move 1 hex. A unit cannot move onto a blocked space. If a unit has any Move Points remaining, it can attack, allowing a unit to move 1 space and then attack. However, attacking consumes all remaining Move Points, preventing further movement.
+
+Combat Resolution
+
+Combat occurs between adjacent units. When you attack, both attacker and defender roll a six-sided die and add their respective Strength values. If the attack roll beats the defense roll, the target loses 1 Health Point. If the attack fails, nothing happens, unless the defender hasn't moved yet, in which case it immediately counterattacks using the same combat rules. Units that haven't moved this turn gain a +1 Defense bonus. When a unit's Health reaches zero, it's destroyed. If the attacker destroys a defender, the attacking unit advances into the now-empty hex.
+
+Victory
+
+Eliminate all enemy units to win the battle. Positioning and timing are critical, protect injured units, use unmoved units to defend key positions, and strike when the odds favor you."
+
+[node name="CloseButton" type="Button" parent="." unique_id=1218548532]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -57.0
+offset_top = -41.0
+offset_right = 57.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Close Instructions"
+
+[connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]
