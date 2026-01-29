@@ -11,6 +11,8 @@
 
 [node name="Main" type="Node2D" unique_id=938094132]
 script = ExtResource("1_0xm2m")
+side1_color = Color(1, 0.36778843, 0.3002166, 1)
+side2_color = Color(0.4051777, 0.59229565, 1, 1)
 unit_scene = ExtResource("3_h2yge")
 
 [node name="Map" parent="." unique_id=304622505 instance=ExtResource("1_ig7tw")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://y7m4kx40o418"]
+[gd_scene format=3 uid="uid://y7m4kx40o418"]
 
 [ext_resource type="Script" uid="uid://cx3t41360skc5" path="res://Menu/StartMenu.gd" id="1_8pdbv"]
 [ext_resource type="PackedScene" uid="uid://t40d56y85vkm" path="res://Menu/InstructionPopup/InstructionPopup.tscn" id="2_qn8y5"]
@@ -12,7 +12,7 @@ thickness = 4
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_gfwu2"]
 thickness = 0
 
-[node name="StartMenu" type="Control"]
+[node name="StartMenu" type="Control" unique_id=1967493199]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8pdbv")
 
-[node name="StartMenuControl" type="Control" parent="."]
+[node name="StartMenuControl" type="Control" parent="." unique_id=1593148396]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,7 +29,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="StartMenuControl"]
+[node name="MarginContainer" type="MarginContainer" parent="StartMenuControl" unique_id=140556223]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,39 +38,39 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_top = 65
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StartMenuControl/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StartMenuControl/MarginContainer" unique_id=832960522]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer" unique_id=313806950]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "1 Week Wargame"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="StartMenuControl/MarginContainer/VBoxContainer" unique_id=1514347187]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_8pdbv")
 
-[node name="MarginContainer" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer" unique_id=1570082989]
 layout_mode = 2
 theme_override_constants/margin_top = 50
 
-[node name="HBoxContainer" type="HBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer" unique_id=429076864]
 layout_mode = 2
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=635064116]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=822720678]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Side 1"
 horizontal_alignment = 1
 
-[node name="Side1AIButton" type="OptionButton" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Side1AIButton" type="OptionButton" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1030218315]
 layout_mode = 2
 selected = 1
 item_count = 2
@@ -79,22 +79,22 @@ popup/item_0/id = 1
 popup/item_1/text = "AI"
 popup/item_1/id = 0
 
-[node name="VSeparator" type="VSeparator" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=741983089]
 layout_mode = 2
 theme_override_constants/separation = 50
 theme_override_styles/separator = SubResource("StyleBoxLine_gfwu2")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=960225190]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2" unique_id=344162577]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Side 2"
 horizontal_alignment = 1
 
-[node name="Side2AIButton" type="OptionButton" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="Side2AIButton" type="OptionButton" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2" unique_id=1929197189]
 layout_mode = 2
 selected = 0
 item_count = 2
@@ -103,26 +103,26 @@ popup/item_0/id = 1
 popup/item_1/text = "AI"
 popup/item_1/id = 0
 
-[node name="MarginContainer5" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+[node name="MarginContainer5" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer" unique_id=745221421]
 layout_mode = 2
 theme_override_constants/margin_top = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5" unique_id=153266980]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5/VBoxContainer"]
+[node name="Label" type="Label" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5/VBoxContainer" unique_id=1335906732]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Unit Number (4-20)"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5/VBoxContainer" unique_id=1622405984]
 layout_mode = 2
 theme_override_constants/margin_left = 300
 theme_override_constants/margin_right = 300
 
-[node name="UnitNumberSpinBox" type="SpinBox" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5/VBoxContainer/MarginContainer"]
+[node name="UnitNumberSpinBox" type="SpinBox" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer5/VBoxContainer/MarginContainer" unique_id=1993503272]
 layout_mode = 2
 theme_override_constants/buttons_width = 20
 min_value = 4.0
@@ -130,40 +130,40 @@ max_value = 20.0
 value = 6.0
 alignment = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer" unique_id=1144206261]
 layout_mode = 2
 theme_override_constants/margin_left = 200
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 200
 
-[node name="StartGameButton" type="Button" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer2"]
+[node name="StartGameButton" type="Button" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer2" unique_id=1369192755]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Start Game"
 
-[node name="MarginContainer3" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer" unique_id=2078139240]
 layout_mode = 2
 theme_override_constants/margin_left = 200
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 200
 
-[node name="InstructionsButton" type="Button" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer3"]
+[node name="InstructionsButton" type="Button" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer3" unique_id=1708112037]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Show Instructions"
 
-[node name="MarginContainer4" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer"]
+[node name="MarginContainer4" type="MarginContainer" parent="StartMenuControl/MarginContainer/VBoxContainer" unique_id=984439783]
 layout_mode = 2
 theme_override_constants/margin_left = 200
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 200
 
-[node name="ExitButton" type="Button" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer4"]
+[node name="ExitButton" type="Button" parent="StartMenuControl/MarginContainer/VBoxContainer/MarginContainer4" unique_id=1505013697]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Exit Game"
 
-[node name="InstructionPopup" parent="." instance=ExtResource("2_qn8y5")]
+[node name="InstructionPopup" parent="." unique_id=346923732 instance=ExtResource("2_qn8y5")]
 visible = false
 layout_mode = 1
 

@@ -68,7 +68,7 @@ Each unit has three core stats: Health Points (shown as dots), Attack Strength, 
 
 Movement, Attack, and Move Points
 
-Every unit starts each turn with 2 Move Points. Each point allows it to move 1 hex. A unit cannot move onto a blocked space. If a unit has any Move Points remaining, it can attack, allowing a unit to move 1 space and then attack. However, attacking consumes all remaining Move Points, preventing further movement.
+Every unit starts each turn with 2 Move Points. Each point allows it to move 1 hex. A unit cannot move onto a blocked space. If a unit has any Move Points remaining, it can attack, allowing a unit to move 1 space and then attack. However, attacking consumes all remaining Move Points, preventing further movement. Units that have not moved have a \"+\" symbol at the top left of their icon.
 
 Combat Resolution
 
